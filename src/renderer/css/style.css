@@ -243,11 +243,18 @@ body.dark .premium-card:hover {
 
 /* Smooth Tab Entrance Transition & Scrollbar Alignment */
 .tab-content {
+    display: none !important;
     animation: tabEntrance 0.18s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     scrollbar-gutter: stable;
 }
-.tab-content.hidden {
-    display: none !important;
+
+.tab-content.active-tab {
+    display: flex !important;
+}
+
+#tab-dashboard.active-tab,
+#tab-settings.active-tab {
+    display: block !important;
 }
 @keyframes tabEntrance {
     from {

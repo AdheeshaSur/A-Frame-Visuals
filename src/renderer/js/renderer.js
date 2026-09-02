@@ -110,7 +110,10 @@ function formatLocalDate(date = new Date()) {
 // -------------------------------------------------------------
 function switchTab(tabId, targetEmployeeId = null) {
     // Hide all tabs
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.remove('active-tab');
+        el.classList.add('hidden');
+    });
 
     // Deactivate all navigation buttons
     document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -122,6 +125,7 @@ function switchTab(tabId, targetEmployeeId = null) {
     const targetTab = document.getElementById(`tab-${tabId}`);
     if (targetTab) {
         targetTab.classList.remove('hidden');
+        targetTab.classList.add('active-tab');
     }
 
     const activeNav = document.getElementById(`nav-${tabId}`);
