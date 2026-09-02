@@ -114,9 +114,8 @@ function switchTab(tabId, targetEmployeeId = null) {
 
     // Deactivate all navigation buttons
     document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.classList.remove('bg-white', 'text-black', 'font-semibold');
-        btn.classList.add('text-neutral-400');
+        btn.classList.remove('active', 'bg-white', 'text-black', 'font-bold', 'shadow-md');
+        btn.classList.add('text-neutral-400', 'hover:text-white', 'hover:bg-neutral-900');
     });
 
     // Show selected tab & highlight active nav link
@@ -127,9 +126,8 @@ function switchTab(tabId, targetEmployeeId = null) {
 
     const activeNav = document.getElementById(`nav-${tabId}`);
     if (activeNav) {
-        activeNav.classList.add('active');
-        activeNav.classList.remove('text-neutral-400');
-        activeNav.classList.add('bg-white', 'text-black', 'font-semibold');
+        activeNav.classList.add('active', 'bg-white', 'text-black', 'font-bold', 'shadow-md');
+        activeNav.classList.remove('text-neutral-400', 'hover:text-white', 'hover:bg-neutral-900');
     }
 
     // Tab-specific rendering
@@ -139,6 +137,8 @@ function switchTab(tabId, targetEmployeeId = null) {
         renderClientsDirectory();
     } else if (tabId === 'invoices') {
         populateInvoiceSelect();
+        renderInvoiceItemsInputs();
+        renderInvoicePreview();
     } else if (tabId === 'employees') {
         if (targetEmployeeId) {
             selectedDirectoryEmployeeId = targetEmployeeId;
