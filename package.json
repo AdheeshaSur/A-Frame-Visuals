@@ -1,0 +1,41 @@
+{
+  "name": "aframe-visuals-invoice-editor",
+  "version": "1.0.0",
+  "description": "Sleek desktop client for editing and generating A-Frame Visuals invoices",
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "electron .",
+    "web": "node server.js",
+    "build-css": "tailwindcss -i ./src/renderer/css/input.css -o ./src/renderer/css/tailwind.css --minify",
+    "dist": "npm run build-css && electron-builder --win"
+  },
+  "build": {
+    "appId": "com.aframevisuals.clienthub",
+    "productName": "A-Frame Visuals Client Hub",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "src/renderer/assets/logo.ico"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ]
+  },
+  "keywords": [
+    "invoice",
+    "editor",
+    "aframe-visuals",
+    "electron"
+  ],
+  "author": "Adheesha Sooriyaarachchi",
+  "license": "ISC",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.1",
+    "electron": "^31.0.0",
+    "electron-builder": "^26.15.3",
+    "tailwindcss": "^4.3.1"
+  }
+}
