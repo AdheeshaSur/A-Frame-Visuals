@@ -6,7 +6,9 @@ const url = require('url');
 
 const isPackaged = app.isPackaged;
 const DB_PATH = isPackaged 
-    ? 'D:/A-Frame Visuals/database.json' 
+    ? (fs.existsSync(path.join(path.dirname(app.getPath('exe')), 'database.json'))
+        ? path.join(path.dirname(app.getPath('exe')), 'database.json')
+        : path.join(app.getPath('userData'), 'database.json'))
     : path.join(__dirname, '../../database.json');
 
 let localServer = null;
