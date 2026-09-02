@@ -11,6 +11,18 @@ const DB_PATH = isPackaged
         : path.join(app.getPath('userData'), 'database.json'))
     : path.join(__dirname, '../../database.json');
 
+if (isPackaged && !fs.existsSync(DB_PATH)) {
+    const defaultDbPath = path.join(__dirname, '../../database.json');
+    if (fs.existsSync(defaultDbPath)) {
+        try {
+            fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
+            fs.copyFileSync(defaultDbPath, DB_PATH);
+        } catch (e) {
+            console.error("Failed to copy initial database.json:", e);
+        }
+    }
+}
+
 let localServer = null;
 
 function createWindow() {

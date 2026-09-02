@@ -21,6 +21,7 @@
     },
     "files": [
       "src/**/*",
+      "database.json",
       "package.json"
     ]
   },
