@@ -1398,6 +1398,201 @@
                         </div>
                     </div>
 
+                                            </tr>
+                                        </thead>
+                                        <tbody id="employee-work-history-table-body"
+                                            class="divide-y divide-neutral-50 dark:divide-neutral-800/40">
+                                            <!-- Dynamically populated -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="employee-empty-state"
+                        class="flex flex-col items-center justify-center h-full text-neutral-400 dark:text-neutral-600 space-y-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-neutral-300 dark:text-neutral-700"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <p
+                            class="text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+                            Select an employee profile to manage details and payouts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SETTINGS TAB -->
+        <div id="tab-settings" class="tab-content flex-1 overflow-y-auto p-8 space-y-6 hidden">
+            <!-- Header bar matching other tabs -->
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-extrabold uppercase tracking-wider">Hub Settings</h2>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-xs mt-0.5">Configure your business identity,
+                        bank details, and package presets.</p>
+                </div>
+            </div>
+
+            <!-- TOP ROW: Business & Billing (Left) + Packages & Pricing Presets (Right) -->
+            <div class="settings-grid-layout">
+
+                <!-- CARD 1: Business & Billing Details -->
+                <div
+                    class="premium-card bg-app-card p-6 rounded-xl border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between space-y-5">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 border-b border-neutral-100 dark:border-neutral-800 pb-3">
+                            <div class="p-2 bg-neutral-100 dark:bg-neutral-800 text-accent rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold uppercase tracking-wider">Business &amp; Billing Details
+                                </h3>
+                                <p class="text-[11px] text-neutral-400 dark:text-neutral-500">Sender details for client
+                                    invoices</p>
+                            </div>
+                        </div>
+
+                        <!-- Sender Fields -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="col-span-2">
+                                <label
+                                    class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Company
+                                    / Studio Name</label>
+                                <input type="text" id="settings-from-company"
+                                    class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Owner
+                                    Name</label>
+                                <input type="text" id="settings-from-name"
+                                    class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Currency
+                                    Symbol</label>
+                                <input type="text" id="settings-currency" placeholder="Rs."
+                                    class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Contact
+                                    Email</label>
+                                <input type="email" id="settings-from-email"
+                                    class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Contact
+                                    Phone</label>
+                                <input type="text" id="settings-from-phone"
+                                    class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Bank Settlement Fields -->
+                        <div class="pt-2 border-t border-neutral-100 dark:border-neutral-800 space-y-2">
+                            <h4
+                                class="text-[9px] font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+                                Payment Settlement Details</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label
+                                        class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Bank
+                                        Name</label>
+                                    <input type="text" id="settings-bank-name"
+                                        class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Branch
+                                        Name</label>
+                                    <input type="text" id="settings-bank-branch"
+                                        class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Account
+                                        Holder</label>
+                                    <input type="text" id="settings-acc-name"
+                                        class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[9px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-1">Account
+                                        Number</label>
+                                    <input type="text" id="settings-acc-no"
+                                        class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Action -->
+                    <div class="pt-3 border-t border-neutral-100 dark:border-neutral-800 flex justify-end">
+                        <button onclick="saveSettings()"
+                            class="bg-black hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-lg border border-neutral-800 dark:border-neutral-700 shadow-sm transition active:scale-[0.98]">
+                            Save Billing Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD 2: Packages & Pricing Presets (Placed on Right Side) -->
+                <div
+                    class="premium-card bg-app-card p-6 rounded-xl border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between space-y-4">
+                    <div class="space-y-4">
+                        <div
+                            class="flex justify-between items-center border-b border-neutral-100 dark:border-neutral-800 pb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-neutral-100 dark:bg-neutral-800 text-accent rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs font-bold uppercase tracking-wider">Packages &amp; Pricing
+                                        Presets</h3>
+                                    <p class="text-[11px] text-neutral-400 dark:text-neutral-500">Standard rates and
+                                        editor payout shares</p>
+                                </div>
+                            </div>
+                            <button onclick="addPresetSetting()"
+                                class="bg-black hover:bg-neutral-800 text-white font-bold text-[10px] uppercase tracking-wider px-3.5 py-2 rounded-lg border border-neutral-800 dark:border-neutral-700 shadow-sm transition active:scale-95 flex items-center gap-1.5">
+                                <span>+</span> Add Package
+                            </button>
+                        </div>
+
+                        <!-- Real Clean Table View (No outer gray cards) -->
+                        <div class="overflow-x-auto max-h-[380px] overflow-y-auto pr-1">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr
+                                        class="border-b border-neutral-200 dark:border-neutral-800 text-[9px] font-bold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+                                        <th class="pb-2.5 pr-2 font-bold">Package Name</th>
+                                        <th class="pb-2.5 px-2 w-28 text-right font-bold">Client (Rs.)</th>
+                                        <th class="pb-2.5 px-2 w-28 text-right font-bold">Payout (Rs.)</th>
+                                        <th class="pb-2.5 pl-2 w-8 text-center font-bold"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="settings-pricing-presets-list"
+                                    class="divide-y divide-neutral-100 dark:divide-neutral-800/60">
+                                    <!-- Loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <!-- Footer Action -->
                     <div
                         class="pt-3 border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center">
@@ -1410,4 +1605,92 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Edit Work Item Modal -->
+    <div id="modal-edit-work-item" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in-up">
+            <div class="px-6 py-4 border-b border-neutral-100 dark:border-neutral-800 flex justify-between items-center bg-neutral-50/50 dark:bg-neutral-950/50">
+                <h3 class="text-sm font-extrabold uppercase tracking-wider text-neutral-800 dark:text-neutral-200">Edit Logged Deliverable</h3>
+                <button onclick="closeEditWorkItemModal()" class="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 text-lg font-bold">
+                    &times;
+                </button>
+            </div>
+            <form onsubmit="saveWorkItemEdit(event)" class="p-6 space-y-4">
+                <input type="hidden" id="edit-item-client-id">
+                <input type="hidden" id="edit-item-index">
+                
+                <div>
+                    <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Deliverable Title</label>
+                    <input type="text" id="edit-item-title" required class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Service Type</label>
+                        <input type="text" id="edit-item-type" required class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Date (YYYY-MM-DD)</label>
+                        <input type="text" id="edit-item-date" required class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Description / Scope Notes</label>
+                    <input type="text" id="edit-item-desc" class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Price (Rs.)</label>
+                        <input type="number" id="edit-item-price" required min="0" step="any" class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Payment Status</label>
+                        <select id="edit-item-status" class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                            <option value="Pending">Pending</option>
+                            <option value="Paid">Paid</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Assigned Editor</label>
+                        <select id="edit-item-employee" class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest">Editor Payout Share (Rs.)</label>
+                        <input type="number" id="edit-item-employee-share" min="0" step="any" class="w-full mt-1 px-3.5 py-2.5 border rounded-xl text-xs bg-white dark:bg-neutral-800 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-neutral-100 dark:border-neutral-800">
+                    <button type="button" onclick="deleteWorkItemFromModal()" class="text-red-600 hover:text-red-700 text-xs font-bold uppercase tracking-wider">
+                        Delete Deliverable
+                    </button>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="closeEditWorkItemModal()" class="px-4 py-2 text-xs font-bold text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 uppercase tracking-wider">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-accent text-white px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm hover:opacity-90 active:scale-95 transition">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="no-print fixed bottom-6 right-6 z-50 pointer-events-none flex flex-col gap-2">
+    </div>
+
+    <!-- Electron scripts -->
+    <script src="js/renderer.js"></script>
+</body>
+
 </html>
