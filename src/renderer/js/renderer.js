@@ -347,37 +347,6 @@ function migrateDatabase() {
             }
         ];
         migrated = true;
-    } else if (db.employees.length < 3) {
-        if (!db.employees.some(e => e.id === "employee-editor1")) {
-            db.employees.push({
-                id: "employee-editor1",
-                name: "Kasun Perera",
-                email: "kasun@example.com",
-                phone: "+94771234567",
-                role: "Senior Video Editor",
-                joinDate: "2026-02-01",
-                bankName: "Commercial Bank",
-                bankBranch: "Colombo",
-                accName: "K A K Perera",
-                accNo: "8001 2345 6789"
-            });
-            migrated = true;
-        }
-        if (!db.employees.some(e => e.id === "employee-editor2")) {
-            db.employees.push({
-                id: "employee-editor2",
-                name: "Nimal Silva",
-                email: "nimal@example.com",
-                phone: "+94719876543",
-                role: "Assistant Video Editor",
-                joinDate: "2026-03-01",
-                bankName: "BOC",
-                bankBranch: "Gampaha",
-                accName: "H N Silva",
-                accNo: "7009 8765 4321"
-            });
-            migrated = true;
-        }
     }
 
     // Auto assign prodStatus / invoiceNo if they don't exist, and add employee fields
@@ -1149,6 +1118,106 @@ function markItemAsDelivered(clientId, itemTitle, itemDate) {
     }
 }
 
+function openEditWorkItemModal(clientId, itemIndex) {
+    const client = db.clients.find(c => c.id === clientId);
+    if (!client || !client.items || !client.items[itemIndex]) return;
+
+    const item = client.items[itemIndex];
+    document.getElementById('edit-item-client-id').value = clientId;
+    document.getElementById('edit-item-index').value = itemIndex;
+
+    document.getElementById('edit-item-title').value = item.title || '';
+    document.getElementById('edit-item-type').value = item.type || 'Video Editing';
+    document.getElementById('edit-item-date').value = item.date || formatLocalDate();
+    document.getElementById('edit-item-desc').value = item.desc || '';
+    document.getElementById('edit-item-price').value = item.price !== undefined ? item.price : 0;
+    document.getElementById('edit-item-status').value = item.status || 'Pending';
+
+    // Populate employee options
+    const empSelect = document.getElementById('edit-item-employee');
+    if (empSelect) {
+        empSelect.innerHTML = '<option value="">-- Unassigned --</option>';
+        if (db.employees) {
+            db.employees.forEach(emp => {
+                const opt = document.createElement('option');
+                opt.value = emp.id;
+                opt.innerText = `${emp.name} (${emp.role || 'Editor'})`;
+                empSelect.appendChild(opt);
+            });
+        }
+        empSelect.value = item.employeeId || (db.employees && db.employees[0] ? db.employees[0].id : '');
+    }
+
+    document.getElementById('edit-item-employee-share').value = item.employeeShare !== undefined ? item.employeeShare : 0;
+
+    const modal = document.getElementById('modal-edit-work-item');
+    if (modal) modal.classList.remove('hidden');
+}
+
+function closeEditWorkItemModal() {
+    const modal = document.getElementById('modal-edit-work-item');
+    if (modal) modal.classList.add('hidden');
+}
+
+function saveWorkItemEdit(e) {
+    if (e) e.preventDefault();
+
+    const clientId = document.getElementById('edit-item-client-id').value;
+    const itemIndex = parseInt(document.getElementById('edit-item-index').value, 10);
+
+    const client = db.clients.find(c => c.id === clientId);
+    if (!client || !client.items || !client.items[itemIndex]) return;
+
+    const item = client.items[itemIndex];
+    item.title = document.getElementById('edit-item-title').value.trim();
+    item.type = document.getElementById('edit-item-type').value.trim();
+    item.date = document.getElementById('edit-item-date').value.trim();
+    item.desc = document.getElementById('edit-item-desc').value.trim();
+    item.price = parseFloat(document.getElementById('edit-item-price').value) || 0;
+    item.status = document.getElementById('edit-item-status').value;
+    item.employeeId = document.getElementById('edit-item-employee').value;
+    item.employeeShare = parseFloat(document.getElementById('edit-item-employee-share').value) || 0;
+
+    saveDatabase();
+    closeEditWorkItemModal();
+
+    renderDashboard();
+    renderClientsDirectory();
+    renderEmployeesDirectory();
+    if (typeof renderWorkHistory === 'function') renderWorkHistory();
+    if (currentActiveClientId === clientId) {
+        renderInvoiceItemsInputs();
+        renderInvoicePreview();
+        updateInvoiceHeaderStatus();
+    }
+    showToast("Deliverable details updated!");
+}
+
+function deleteWorkItemFromModal() {
+    const clientId = document.getElementById('edit-item-client-id').value;
+    const itemIndex = parseInt(document.getElementById('edit-item-index').value, 10);
+
+    const client = db.clients.find(c => c.id === clientId);
+    if (!client || !client.items || !client.items[itemIndex]) return;
+
+    if (!confirm(`Are you sure you want to delete "${client.items[itemIndex].title}"?`)) return;
+
+    client.items.splice(itemIndex, 1);
+    saveDatabase();
+    closeEditWorkItemModal();
+
+    renderDashboard();
+    renderClientsDirectory();
+    renderEmployeesDirectory();
+    if (typeof renderWorkHistory === 'function') renderWorkHistory();
+    if (currentActiveClientId === clientId) {
+        renderInvoiceItemsInputs();
+        renderInvoicePreview();
+        updateInvoiceHeaderStatus();
+    }
+    showToast("Deliverable deleted!");
+}
+
 function renderWorkHistory() {
     const tbody = document.getElementById('history-timeline-body');
     const clientFilterSelect = document.getElementById('history-client-filter');
@@ -1385,6 +1454,7 @@ function renderClientsDirectory() {
             } else {
                 const sortedVideos = [...videoDeliverablesList].sort((a, b) => new Date(b.date) - new Date(a.date));
                 sortedVideos.forEach(item => {
+                    const originalIndex = activeClient.items.indexOf(item);
                     const tr = document.createElement('tr');
                     tr.className = 'border-b border-neutral-100/50 dark:border-neutral-800/40 hover:bg-neutral-50/50 dark:hover:bg-neutral-800/20 transition';
 
@@ -1404,7 +1474,14 @@ function renderClientsDirectory() {
                         <td class="py-2.5 px-3 text-neutral-600 dark:text-neutral-400 font-medium">${escapeHTML(item.type || 'Video Editing')}</td>
                         <td class="py-2.5 px-3 text-neutral-500">${formattedDate}</td>
                         <td class="py-2.5 px-3 text-right font-bold text-neutral-800 dark:text-neutral-200">${db.settings.currency || 'Rs.'} ${(item.price || 0).toLocaleString()}</td>
-                        <td class="py-2.5 px-3 text-center">${statusBadge}</td>
+                        <td class="py-2.5 px-3 text-center flex items-center justify-center gap-1.5">
+                            ${statusBadge}
+                            <button onclick="openEditWorkItemModal('${activeClient.id}', ${originalIndex})" title="Edit Deliverable" class="p-1 text-neutral-400 hover:text-accent dark:hover:text-accent transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </button>
+                        </td>
                     `;
                     historyTbody.appendChild(tr);
                 });
@@ -1779,7 +1856,20 @@ function saveEmployeeEdit() {
     activeEmp.accName = document.getElementById('edit-employee-bank-accname').value.trim();
     activeEmp.accNo = document.getElementById('edit-employee-bank-accno').value.trim();
 
+    // Sync Owner settings with global company settings if editing the Owner / Lead Editor
+    if (activeEmp.id === 'employee-adheesha' || (db.employees.length > 0 && activeEmp.id === db.employees[0].id)) {
+        if (!db.settings) db.settings = {};
+        db.settings.fromName = activeEmp.name;
+        db.settings.fromEmail = activeEmp.email;
+        db.settings.fromPhone = activeEmp.phone;
+        db.settings.bankName = activeEmp.bankName;
+        db.settings.bankBranch = activeEmp.bankBranch;
+        db.settings.accName = activeEmp.accName;
+        db.settings.accNo = activeEmp.accNo;
+    }
+
     saveDatabase();
+    updateSidebarUserBadge();
     renderEmployeesDirectory();
     showToast("Employee profile saved successfully!");
 }
